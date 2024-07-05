@@ -122,9 +122,9 @@ export default function Home() {
         </>
       ) : (
         <>
-          <div className="flex px-[5%]">
-            <div className="w-[50%] pt-[150px]">
-              <p className="font-bold text-[60px] text-mr_color">
+          <div className="flex flex-col px-[5%] md:flex-row">
+            <div className="w-full md:w-[50%] pt-[50px] md:pt-[150px]">
+              <p className="font-bold text-[30px] md:text-[60px] text-mr_color">
                 Discover Recipe & Delicious Food
               </p>
               <form onSubmit={(e) => handleSearch(searchQuery, 1)}>
@@ -143,27 +143,27 @@ export default function Home() {
                 </div>
               </form>
             </div>
-            <div className="w-[50%]">
+            <div className="hidden md:block md:w-[50%]">
               <Image src={foodLandingPage} alt="" priority />
             </div>
           </div>
 
-          <div className="border-l-8 border-yellow-400 text-[48px] ml-[5%] mt-16">
+          <div className="border-l-8 border-yellow-400 text-[24px] md:text-[48px] ml-[5%] mt-16">
             New Recipe
           </div>
-          <div className="flex items-center mt-[15px] ml-[7%] h-[600px]">
+          <div className="flex flex-col mr-[7%] md:flex-row items-center mt-[15px] ml-[7%] h-auto md:h-[600px]">
             <Image
               src={recipes[0]?.image}
               alt={recipes[0]?.name}
-              width={800}
-              height={600}
-              className="h-[600px] w-[600px] rounded-3xl border border-black object-cover"
+              width={400}
+              height={300}
+              className="h-auto w-full md:h-[600px] md:w-[600px] rounded-3xl border border-black object-cover"
             />
-            <div className="text-left mr-[5%] pl-[15%]">
-              <p className="text-[48px] font-bold border-b-2 border-black">
+            <div className="text-left mt-4 md:mt-0 md:mr-[5%] md:pl-[15%]">
+              <p className="text-[24px] md:text-[48px] font-bold border-b-2 border-black">
                 {recipes[0]?.title || "No Recipe Title"}
               </p>
-              <p className="mt-6 text-[24px]">
+              <p className="mt-6 text-[16px] md:text-[24px]">
                 {recipes[0]?.description?.length > 100
                   ? `${recipes[0]?.description.substring(0, 100)}...`
                   : recipes[0]?.description || "No Recipe Description"}
@@ -176,10 +176,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border-l-8 border-yellow-400 text-[48px] ml-[5%] mt-16">
+          <div className="border-l-8 border-yellow-400 text-[24px] md:text-[48px] ml-[5%] mt-16">
             Popular Recipe
           </div>
-          <div className="grid grid-cols-3 place-items-center gap-y-[25px] mt-[15px] mx-[5%]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center gap-y-[25px] mt-[15px] mx-[5%]">
             {recipes.map((recipe, index) => (
               <Link href={`/recipes/${recipe.id}`} key={index}>
                 <Card
@@ -192,9 +192,11 @@ export default function Home() {
             ))}
           </div>
           <Link href={`/recipes`}>
-            <button className="px-6 py-3 bg-yellow-400 text-white rounded-md mt-6 ml-[45%]">
-              Learn more
-            </button>
+          <div className="flex justify-center w-full mt-6">
+              <button className="px-6 py-3 bg-yellow-400 text-white rounded-md">
+                Learn more
+              </button>
+            </div>
           </Link>
         </>
       )}
@@ -202,3 +204,5 @@ export default function Home() {
     </div>
   );
 }
+
+

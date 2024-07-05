@@ -58,10 +58,12 @@ const RecipeDetail = () => {
   const handleLike = async () => {
     try {
       if (isLiked) {
-        await API.delete(`/recipes/like/${id}`);
+        const likeRecipesData = await API.get('/recipes/like')
+        const likeRecipe = likeRecipesData.data.data.find(recipe => recipe.recipe_id === id)
+        await API.delete(`/recipes/like/${likeRecipe.id}`);
         setIsLiked(false); // Set to false after delete
       } else {
-        await API.post(`/recipes/like`, { id });
+        await API.post(`/recipes/like`, { recipe_id: id });
         setIsLiked(true); // Set to true after post
       }
     } catch (err) {
@@ -72,10 +74,12 @@ const RecipeDetail = () => {
   const handleSave = async () => {
     try {
       if (isSaved) {
-        await API.delete(`/recipes/save/${id}`);
+        const saveRecipeData = await API.get('/recipes/save')
+        const saveRecipe = saveRecipeData.data.data.find(recipe => recipe.recipe_id === id)
+        await API.delete(`/recipes/save/${saveRecipe.id}`);
         setIsSaved(false); // Set to false after delete
       } else {
-        await API.post(`/recipes/save`, { id });
+        await API.post(`/recipes/save`, { recipe_id: id });
         setIsSaved(true); // Set to true after post
       }
     } catch (err) {

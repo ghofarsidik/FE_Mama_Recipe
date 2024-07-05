@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import MamaIcon from "../../assets/images/logos/mama recipe.png";
@@ -32,10 +31,10 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-full flex mx-auto">
+    <div className="max-w-full flex flex-col md:flex-row mx-auto">
       {/* Left side with background and logo */}
       <div
-        className="w-1/2 h-[900px] bg-cover bg-center relative"
+        className="hidden md:block w-full md:w-1/2 h-[900px] bg-cover bg-center relative"
         style={{ backgroundImage: `url(${background.src})` }}
       >
         <div className="absolute inset-0 bg-yellow-500 bg-opacity-50"></div>
@@ -51,7 +50,7 @@ const Login = () => {
       </div>
 
       {/* Right side with form */}
-      <div className="w-1/2 flex flex-col px-20 pt-32">
+      <div className="w-full md:w-1/2 flex flex-col px-8 md:px-20 pt-16 md:pt-32">
         <p>Welcome</p>
         <p>Log in into your existing account</p>
         <form onSubmit={handleSubmit}>

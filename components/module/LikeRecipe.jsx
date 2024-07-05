@@ -42,9 +42,9 @@ const LikeRecipe = ({ likeRecipes, handleDelete }) => {
         likeRecipes.map((recipe, index) => (
           <div key={index} className="relative">
             <Link href={`/recipes/${recipe.recipe_id}`}>
-              <Card width={300} height={200} image={recipe?.image} recipe_name={recipe?.recipe?.title} />
+              <Card width={300} height={200} image={recipe?.recipe?.image} recipe_name={recipe?.recipe?.title} />
             </Link>
-            <div className="absolute top-2 right-0 flex">
+            <div className="absolute top-2 right-0 rounded-l-full flex">
               <button
                 onClick={() => handleDelete(recipe.id)}
                 className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center"
