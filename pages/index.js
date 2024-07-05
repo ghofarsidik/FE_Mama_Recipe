@@ -112,11 +112,11 @@ export default function Home() {
                   </Link>
                 ))}
               </div>
-              <PaginationButton
+              {/* <PaginationButton
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={(page) => handleSearch(searchQuery, page)}
-              />
+              /> */}
             </>
           )}
         </>

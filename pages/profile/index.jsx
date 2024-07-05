@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/base/Navbar";
 import Image from "next/image";
 import dummyImage from "../../assets/images/images/dummyPhoto.jpg";
-import MyRecipe from "./MyRecipe.jsx";
-import SavedRecipe from "./SavedRecipe";
-import LikeRecipe from "./LikeRecipe";
+import MyRecipe from "../../components/module/MyRecipe.jsx";
+import SavedRecipe from "../../components/module/SavedRecipe.jsx";
+import LikeRecipe from "../../components/module/LikeRecipe.jsx";
 import API from "../../api/api.jsx";
 import Footer from "../../components/base/Footer.jsx";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("My Recipe");
-  const [recipes, setrecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [savedRecipes, setSavedRecipes] = useState([]);
+  const [likeRecipes, setLikeRecipes] = useState([]);
   const [user, setUser] = useState([]);
 
   useEffect(() => {
@@ -33,21 +35,63 @@ const Index = () => {
         const response = await API.get("/recipes/self");
         const data = response.data.data;
         console.log("Recipe data: ", data);
-        setrecipes(data);
+        setRecipes(data);
       } catch (err) {
         console.error("Failed to get recipe data: ", err);
       }
     };
 
+    const getSavedRecipesData = async () => {
+      try {
+        const response = await API.get("/recipes/save");
+        const data = response.data.data;
+        console.log("Saved Recipe data: ", data);
+        setSavedRecipes(data);
+      } catch (err) {
+        console.error("Failed to get saved recipe data: ", err);
+      }
+    };
+
+    const getLikeRecipesData = async () => {
+      try {
+        const response = await API.get("/recipes/like");
+        const data = response.data.data;
+        console.log("Like Recipe data: ", data);
+        setLikeRecipes(data);
+      } catch (err) {
+        console.error("Failed to get like recipe data: ", err);
+      }
+    };
+
     getRecipesData();
+    getSavedRecipesData();
+    getLikeRecipesData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDeleteMyRecipe = async (id) => {
     try {
       await API.delete(`/recipes/${id}`);
-      setrecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
+      setRecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
     } catch (error) {
       console.error('Failed to delete the recipe:', error);
+    }
+  };
+
+  const handleDeleteSave = async (id) => {
+    try {
+      await API.delete(`/recipes/save/${id}`);
+      setSavedRecipes((prevSavedRecipes) => prevSavedRecipes.filter(recipe => recipe.id !== id));
+    } catch (error) {
+      console.error('Failed to delete the saved recipe:', error);
+    }
+  };
+
+  const handleDeleteLike = async (id) => {
+    try {
+      await API.delete(`/recipes/like/${id}`);
+      setLikeRecipes((prevLikeRecipes) => prevLikeRecipes.filter(recipe => recipe.id !== id));
+    } catch (error) {
+      console.error('Failed to delete the liked recipe:', error);
     }
   };
 
@@ -92,9 +136,9 @@ const Index = () => {
         </div>
       </div>
       <div className="mt-5 w-full text-center">
-        {activeTab === "My Recipe" && <MyRecipe recipes={recipes} handleDelete={handleDelete} />}
-        {activeTab === "Saved Recipe" && <SavedRecipe recipes={recipes} />}
-        {activeTab === "Like Recipe" && <LikeRecipe recipes={recipes} />}
+        {activeTab === "My Recipe" && <MyRecipe recipes={recipes} handleDelete={handleDeleteMyRecipe} />}
+        {activeTab === "Saved Recipe" && <SavedRecipe savedRecipes={savedRecipes} handleDelete={handleDeleteSave} />}
+        {activeTab === "Like Recipe" && <LikeRecipe likeRecipes={likeRecipes} handleDelete={handleDeleteLike} />}
       </div>
 
       <Footer />

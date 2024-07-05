@@ -46,7 +46,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     }
 
     return (
-        <div className="mt-12 max-w-[1140px] mx-auto flex space-x-[14px] items-center justify-center hidden">
+        <div className="mt-12 max-w-[1140px] mx-auto flex space-x-[14px] items-center justify-center">
             <button 
                 onClick={() => onPageChange(currentPage - 1)} 
                 className={`w-[58px] h-[58px] ${currentPage === 1 ? 'text-black bg-white' : 'text-white bg-yellow-400'} border border-grey-400 border-opacity-30 rounded flex items-center justify-center text-lg font-bold`}

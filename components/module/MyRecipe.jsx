@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import Card from '../../components/base/Card'
+import Card from '../base/Card'
 import edit from '../../assets/images/icons/edit.svg'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 const MyRecipe = ({ recipes, handleDelete }) => {
   const [columns, setColumns] = useState(1);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
 
   useEffect(() => {
     const updateColumns = () => {
@@ -44,27 +44,31 @@ const MyRecipe = ({ recipes, handleDelete }) => {
 
   return (
     <div className={`grid ${getGridClass(columns)} place-items-center gap-y-[25px] mt-[15px] mx-[5%]`}>
-      {recipes.map((recipe, index) => (
-        <div key={index} className="relative">
-          <Link href={`/recipes/${recipe.id}`}>
-            <Card width={300} height={200} image={recipe?.image} recipe_name={recipe.title} />
-          </Link>
-          <div className="absolute top-2 right-0 flex">
-            <button
-              onClick={() => handleEdit(recipe.id)}
-              className="bg-white bg-opacity-75 text-blue-800 rounded-l-2xl p-1 w-8 h-8 flex items-center justify-center "
-            >
-              <Image src={edit} alt="Edit" className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => handleDelete(recipe.id)}
-              className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center"
-            >
-              <span className="text-xl font-bold"> x </span>
-            </button>
+      {recipes.length === 0 ? (
+        <p className="text-center text-gray-500">Belum ada resep yang dibuat</p>
+      ) : (
+        recipes.map((recipe, index) => (
+          <div key={index} className="relative">
+            <Link href={`/recipes/${recipe.id}`}>
+              <Card width={300} height={200} image={recipe?.image} recipe_name={recipe.title} />
+            </Link>
+            <div className="absolute top-2 right-0 flex">
+              <button
+                onClick={() => handleEdit(recipe.id)}
+                className="bg-white bg-opacity-75 text-blue-800 rounded-l-2xl p-1 w-8 h-8 flex items-center justify-center "
+              >
+                <Image src={edit} alt="Edit" className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => handleDelete(recipe.id)}
+                className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center"
+              >
+                <span className="text-xl font-bold"> x </span>
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   )
 }

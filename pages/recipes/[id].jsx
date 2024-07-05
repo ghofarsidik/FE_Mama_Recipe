@@ -1,37 +1,87 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Navbar from '../../components/base/Navbar'
+import Navbar from '../../components/base/Navbar';
 import Footer from '../../components/base/Footer';
+import API from '../../api/api';
+import like from '../../assets/images/icons/like.svg';
+import unlike from '../../assets/images/icons/unlike.svg';
+import save from '../../assets/images/icons/bookmark.svg';
+import unsave from '../../assets/images/icons/unbookmark.svg';
 
 const RecipeDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (id) {
-      const fetchRecipe = async () => {
+      const getRecipe = async () => {
         try {
-          const response = await axios.get(
-            `https://pijar-mama-recipe.vercel.app/v1/recipes/${id}`
-          );
+          const response = await API.get(`/recipes/${id}`);
+          console.log("recipe: ", response.data.data);
           setRecipe(response.data.data);
         } catch (err) {
           setError("Error fetching recipe details.");
         }
       };
 
-      fetchRecipe();  
+      const getLikeStatus = async () => {
+        try {
+          const likeResponse = await API.get(`/recipes/like`);
+          const likeRecipe = likeResponse.data.data.find(recipe => recipe.recipe_id === id);
+          setIsLiked(!!likeRecipe); // Set isLiked based on the existence of likeRecipe
+        } catch (err) {
+          setError("Error fetching like status.");
+        }
+      };
+
+      const getSaveStatus = async () => {
+        try {
+          const saveResponse = await API.get(`/recipes/save`);
+          const savedRecipe = saveResponse.data.data.find(recipe => recipe.recipe_id === id);
+          setIsSaved(!!savedRecipe); 
+        } catch (err) {
+          setError("Error fetching save status.");
+        }
+      };
+
+      getRecipe();
+      getLikeStatus();
+      getSaveStatus();
     }
   }, [id]);
 
-  console.log(recipe);
-  console.log(error);
+  const handleLike = async () => {
+    try {
+      if (isLiked) {
+        await API.delete(`/recipes/like/${id}`);
+        setIsLiked(false); // Set to false after delete
+      } else {
+        await API.post(`/recipes/like`, { id });
+        setIsLiked(true); // Set to true after post
+      }
+    } catch (err) {
+      setError("Error updating like status.");
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      if (isSaved) {
+        await API.delete(`/recipes/save/${id}`);
+        setIsSaved(false); // Set to false after delete
+      } else {
+        await API.post(`/recipes/save`, { id });
+        setIsSaved(true); // Set to true after post
+      }
+    } catch (err) {
+      setError("Error updating save status.");
+    }
+  };
 
   if (error) {
     return <p>{error}</p>;
@@ -46,21 +96,40 @@ const RecipeDetail = () => {
     return { __html: formattedDescription };
   };
 
+  const handleClick = async() => {
+    try {
+      const likeResponse = await API.post(`/recipes/save`, { id });
+      console.log("likeResponse: ", likeResponse);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="max-w-[1440px] mx-auto bg-bg_krem font-montserrat">
       <Navbar />
       <div className="flex flex-col px-[5%]">
         <h1 className="font-semibold text-[50px] text-mr_color mx-auto">{recipe.title}</h1>
-        <Image
-          src={recipe.image}
-          alt=""
-          width={800}
-          height={600}
-          className='mx-auto mt-11 h-[600px] w-auto rounded-2xl'
-        />
+        <div className="relative mx-auto mt-11">
+          <Image
+            src={recipe.image}
+            alt=""
+            width={800}
+            height={600}
+            className='h-[600px] w-auto rounded-2xl'
+          />
+          <div className="absolute bottom-4 right-4 flex space-x-4">
+            <button onClick={handleLike}>
+              <Image src={isLiked ? like : unlike} alt="Like" width={45} height={45} />
+            </button>
+            <button onClick={handleSave}>
+              <Image src={isSaved ? save : unsave} alt="Save" width={45} height={45} />
+            </button>
+          </div>
+        </div>
+        <button onClick={handleClick}>Save</button>
         <p className='mt-5 ml-[10%]'>Bahan-Bahan</p>
         <p dangerouslySetInnerHTML={createMarkup(recipe.description)} className='ml-[10%] mt-5'></p>
-        {/* Display other recipe details as needed */}
       </div>
       <Footer />
     </div>
