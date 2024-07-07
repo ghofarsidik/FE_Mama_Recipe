@@ -1,46 +1,55 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+const Pagination = ({ currentPage, totalPages, onPageChange, basic = false }) => {
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => {
+        // Check if window is defined (i.e., we are in the browser)
+        if (typeof window !== 'undefined') {
             setIsMobile(window.innerWidth <= 768);
-        };
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+            const handleResize = () => {
+                setIsMobile(window.innerWidth <= 768);
+            };
+
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }
     }, []);
 
     const pageNumbers = [];
 
-    if (isMobile) {
-        if (totalPages <= 5) {
-            for (let i = 1; i <= totalPages; i++) {
-                pageNumbers.push(i);
-            }
-        } else {
-            if (currentPage <= 3) {
-                pageNumbers.push(1, 2, 3, 4, 5);
-            } else if (currentPage >= totalPages - 2) {
-                pageNumbers.push(totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
-            } else {
-                pageNumbers.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
-            }
-        }
+    if (basic) {
+        pageNumbers.push(currentPage);
     } else {
-        if (totalPages <= 7) {
-            for (let i = 1; i <= totalPages; i++) {
-                pageNumbers.push(i);
+        if (isMobile) {
+            if (totalPages <= 5) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbers.push(i);
+                }
+            } else {
+                if (currentPage <= 3) {
+                    pageNumbers.push(1, 2, 3, 4, 5);
+                } else if (currentPage >= totalPages - 2) {
+                    pageNumbers.push(totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+                } else {
+                    pageNumbers.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+                }
             }
         } else {
-            if (currentPage <= 5) {
-                pageNumbers.push(1, 2, 3, 4, 5, 6, 7, '...', totalPages);
-            } else if (currentPage >= totalPages - 2) {
-                pageNumbers.push(1, '...', totalPages - 6, totalPages - 5, totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+            if (totalPages <= 7) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbers.push(i);
+                }
             } else {
-                pageNumbers.push(1, '...', currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2, '...', totalPages);
+                if (currentPage <= 5) {
+                    pageNumbers.push(1, 2, 3, 4, 5, 6, 7, '...', totalPages);
+                } else if (currentPage >= totalPages - 2) {
+                    pageNumbers.push(1, '...', totalPages - 6, totalPages - 5, totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+                } else {
+                    pageNumbers.push(1, '...', currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2, '...', totalPages);
+                }
             }
         }
     }
@@ -76,4 +85,3 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 };
 
 export default Pagination;
-

@@ -1,58 +1,26 @@
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRecipes, searchRecipes } from "../redux/slice/homeSlice";
 import Navbar from "../components/base/Navbar";
 import Image from "next/image";
 import foodLandingPage from "../assets/images/images/foodlp.png";
 import search from "../assets/images/icons/search.png";
-import { useEffect, useState, useRef } from "react";
 import Card from "../components/base/Card";
 import Footer from "../components/base/Footer";
 import Link from "next/link";
-import api from "../api/api.jsx";
-import noImage from "../assets/images/images/noimage.jpg";
-import PaginationButton from "../components/base/PaginationButton.jsx";
+import { useEffect, useRef, useState } from "react";
+import { useMediaQuery } from 'react-responsive';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchMessage, setSearchMessage] = useState("");
-  const [recipes, setRecipes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const searchInputRef = useRef(null);
+  const dispatch = useDispatch();
+  const { recipes, searchResults, searchMessage, currentPage, totalPages } = useSelector((state) => state.home);
 
-  const handleSearch = async (query, page = 1) => {
-    try {
-      const response = await api.get(
-        `/recipes?page=${page}&limit=10&search=${query}`
-      );
-      const data = response.data.data;
-      setSearchResults(data);
-      setTotalPages(response.data.totalPages);
-      setCurrentPage(page);
-
-      if (data.length === 0) {
-        setSearchMessage("Resep yang Anda cari tidak ditemukan.");
-      } else {
-        setSearchMessage("");
-      }
-    } catch (error) {
-      console.error("Error searching:", error);
-    }
-  };
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
-    const getRecipesData = async () => {
-      try {
-        const response = await api.get("/recipes");
-        const data = response.data.data.slice(0, 6);
-        console.log("Recipe data: ", data);
-        setRecipes(data);
-      } catch (err) {
-        console.error("Failed to get recipe data: ", err);
-      }
-    };
-
-    getRecipesData();
-  }, []);
+    dispatch(fetchRecipes());
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchQuery && searchInputRef.current) {
@@ -63,12 +31,12 @@ export default function Home() {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchQuery) {
-        handleSearch(searchQuery, 1);
+        dispatch(searchRecipes({ query: searchQuery, page: 1 }));
       }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery]);
+  }, [searchQuery, dispatch]);
 
   return (
     <div className="w-[100%] mx-auto bg-bg_krem font-montserrat">
@@ -100,12 +68,12 @@ export default function Home() {
               <p className="ml-[5%] mt-4 font-montserrat text-2xl">
                 Hasil pencarian: {searchQuery}
               </p>
-              <div className="grid grid-cols-5 place-items-center gap-y-[25px] mt-[25px] mx-[5%]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-y-[25px] mt-[25px] mx-[5%]">
                 {searchResults.map((recipe, index) => (
                   <Link href={`/recipes/${recipe.id}`} key={index}>
                     <Card
-                      width={240}
-                      height={240}
+                      width={isMobile ? 150 : 240}
+                      height={isMobile ? 150 : 240}
                       image={recipe?.image}
                       recipe_name={recipe.title}
                     />
@@ -115,7 +83,7 @@ export default function Home() {
               {/* <PaginationButton
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={(page) => handleSearch(searchQuery, page)}
+                onPageChange={(page) => dispatch(searchRecipes({ query: searchQuery, page }))}
               /> */}
             </>
           )}
@@ -127,7 +95,7 @@ export default function Home() {
               <p className="font-bold text-[30px] md:text-[60px] text-mr_color">
                 Discover Recipe & Delicious Food
               </p>
-              <form onSubmit={(e) => handleSearch(searchQuery, 1)}>
+              <form onSubmit={(e) => dispatch(searchRecipes({ query: searchQuery, page: 1 }))}>
                 <div className="flex items-center bg-white rounded-lg">
                   <button type="submit">
                     <Image src={search} alt="" className="h-6 w-6 mx-4" />
@@ -179,12 +147,12 @@ export default function Home() {
           <div className="border-l-8 border-yellow-400 text-[24px] md:text-[48px] ml-[5%] mt-16">
             Popular Recipe
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center gap-y-[25px] mt-[15px] mx-[5%]">
-            {recipes.map((recipe, index) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-y-[25px] mt-[25px] mx-[5%]">
+            {recipes.slice(0,6).map((recipe, index) => (
               <Link href={`/recipes/${recipe.id}`} key={index}>
                 <Card
-                  width={400}
-                  height={400}
+                  width={isMobile ? 150 : 400}
+                  height={isMobile ? 150 : 400}
                   image={recipe?.image}
                   recipe_name={recipe.title}
                 />
@@ -204,5 +172,3 @@ export default function Home() {
     </div>
   );
 }
-
-

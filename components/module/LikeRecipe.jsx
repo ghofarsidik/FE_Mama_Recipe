@@ -47,7 +47,7 @@ const LikeRecipe = ({ likeRecipes, handleDelete }) => {
             <div className="absolute top-2 right-0 rounded-l-full flex">
               <button
                 onClick={() => handleDelete(recipe.id)}
-                className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center"
+                className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center rounded-l-full"
               >
                 <span className="text-xl font-bold"> x </span>
               </button>

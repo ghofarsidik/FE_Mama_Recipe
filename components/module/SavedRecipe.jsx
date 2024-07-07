@@ -47,7 +47,7 @@ const SavedRecipe = ({ savedRecipes, handleDelete }) => {
             <div className="absolute top-2 right-0 flex">
               <button
                 onClick={() => handleDelete(recipe.id)}
-                className="bg-white bg-opacity-75 text-red-800 p-1 w-8 h-8 flex items-center justify-center"
+                className="bg-white bg-opacity-75 rounded-l-full text-red-800 p-1 w-8 h-8 flex items-center justify-center"
               >
                 <span className="text-xl font-bold"> x </span>
               </button>

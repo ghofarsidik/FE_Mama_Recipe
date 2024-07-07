@@ -20,7 +20,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex px-[5%] font-montserrat items-center h-[100px] text-mr_color">
+    <div>
+    <nav className="fixed top-0 left-0 w-full flex px-[5%] font-montserrat items-center h-[100px] text-mr_color shadow-md z-50">
       <div className="flex text-base font-semibold space-x-[5%] flex-grow">
         <Link href="/"> <p className="">Home</p></Link>
         <Link href="/recipes/add_recipe"><p className="">Add Recipe</p></Link>
@@ -37,6 +38,8 @@ const Navbar = () => {
         )}
       </div>
     </nav>
+    <div className="h-[100px]"></div>
+    </div>
   );
 };
 

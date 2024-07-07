@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -5,22 +6,24 @@ import Link from "next/link";
 import MamaIcon from "../../assets/images/logos/mama recipe.png";
 import background from "../../assets/images/backgroundImage/bgautentification.png";
 import Input from "../../components/base/Input";
-import API from "../../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../redux/slice/authSlice";
 
 const Register = () => {
-  const [userData, setUserData] = useState({
+  const [data, setData] = useState({
     name: "",
     email: "",
     phone: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
-  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
   const router = useRouter();
+  const { loading, error, token } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prevData) => ({
+    setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -28,26 +31,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (userData.password !== userData.confirmPassword) {
-      setMessage("Passwords do not match");
+    if (data.password !== data.confirmPassword) {
+      alert("Passwords do not match");
       return;
     }
 
-    try {
-      const { name, email, phone, password } = userData;
-      const response = await API.post("/auth/register", {
-        name,
-        email,
-        phone,
-        password,
-      });
-      if (response.status === 200) {
-        router.push("/login");
-      } else {
-        setMessage("Registration failed");
-      }
-    } catch (error) {
-      setMessage("An error occurred");
+    const result = await dispatch(register(data));
+    if (register.fulfilled.match(result)) {
+      router.push("/");
     }
   };
 
@@ -72,8 +63,8 @@ const Register = () => {
 
       {/* Right side with form */}
       <div className="w-full md:w-1/2 flex flex-col px-8 md:px-20 pt-16 md:pt-32">
-        <p>Let's Get Started!</p>
-        <p>Create a new account to access all features</p>
+        <p>Welcome</p>
+        <p>Create a new account</p>
         <form onSubmit={handleSubmit}>
           <Input
             name="name"
@@ -84,7 +75,7 @@ const Register = () => {
           <Input
             name="email"
             type="email"
-            placeholder="masukkan email anda"
+            placeholder="Masukkan email anda"
             onChange={handleChange}
           />
           <Input
@@ -96,13 +87,13 @@ const Register = () => {
           <Input
             name="password"
             type="password"
-            placeholder="masukkan password anda"
+            placeholder="Masukkan password anda"
             onChange={handleChange}
           />
           <Input
             name="confirmPassword"
             type="password"
-            placeholder="Masukkan kembali password anda"
+            placeholder="Konfirmasi password anda"
             onChange={handleChange}
           />
           <div className="flex items-center space-x-2">
@@ -112,15 +103,13 @@ const Register = () => {
           <button
             className="border rounded-lg bg-yellow-300 py-2 px-4 mt-4"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
-        <p className="mt-4">{message}</p>
-        <p className="mt-2">Forgot Password?</p>
-        <p className="mt-2">
-          Already have an account? <Link href="/login">Login</Link>
-        </p>
+        {error && <p className="mt-4 text-red-500">{error}</p>}
+        <p className="mt-2">Already have an account? <Link href="/login">Login</Link></p>
       </div>
     </div>
   );

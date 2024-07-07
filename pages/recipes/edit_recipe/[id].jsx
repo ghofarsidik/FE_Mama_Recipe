@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router' // Import useRouter from Next.js
+import { useRouter } from 'next/router'
 import Navbar from '../../../components/base/Navbar'
 import Footer from '../../../components/base/Footer'
 import Image from 'next/image'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchRecipe, editRecipe } from '../../../redux/slice/recipeSlice'
 import API from '../../../api/api'
 
 const Index = () => {
@@ -10,26 +12,25 @@ const Index = () => {
   const [image, setImage] = useState(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const router = useRouter() 
-  const { id } = router.query // Extract id from the URL
+  const router = useRouter()
+  const { id } = router.query
+  const dispatch = useDispatch()
+  const { recipe, error, editRecipeStatus } = useSelector((state) => state.recipe)
 
   useEffect(() => {
     if (id) {
-      const getRecipe = async () => {
-        try {
-          const response = await API.get(`/recipes/${id}`)
-          const { title, description, image } = response.data.data
-          setTitle(title)
-          setDescription(description)
-          setShowImage(image)
-          setImage(image)
-        } catch (error) {
-          console.error('Error fetching recipe:', error)
-        }
-      }
-      getRecipe()
+      dispatch(fetchRecipe(id))
     }
-  }, [id])
+  }, [id, dispatch])
+
+  useEffect(() => {
+    if (recipe) {
+      setTitle(recipe.title)
+      setDescription(recipe.description)
+      setShowImage(recipe.image)
+      setImage(recipe.image)
+    }
+  }, [recipe])
 
   const handleImageReader = (event) => {
     const file = event.target.files[0]
@@ -48,36 +49,18 @@ const Index = () => {
   }
 
   const handleSubmit = async () => {
-    console.log("data", image, showImage, title, description);
     if (!showImage || !title || !description) {
       alert('Please fill all fields and upload an image.')
       return
     }
 
     try {
-      // Phase 1: Upload image
-      let imageUrl = showImage;
-      if (showImage !== image) {
-        const formData = new FormData()
-        formData.append('file', image)
-        const uploadResponse = await API.post('/upload', formData)
-        imageUrl = uploadResponse.data.data.file_url
-      }
-
-      // Phase 2: Upload data
-      const data = {
-        title,
-        description,
-        image: imageUrl
-      }
-      const recipeResponse = await API.put(`/recipes/${id}`, data)
-      const recipeId = recipeResponse.data.data.id // Get the recipe ID
-
-      alert('Recipe update successfully!')
-      router.push(`/recipes/${recipeId}`) // Redirect to the new recipe page
+      const resultAction = await dispatch(editRecipe({ id, image, title, description, showImage })).unwrap()
+      alert('Recipe updated successfully!')
+      router.push(`/recipes/${resultAction.id}`)
     } catch (error) {
-      console.error('Error uploading recipe:', error)
-      alert('Failed to upload recipe.')
+      console.error('Error updating recipe:', error)
+      alert('Failed to update recipe.')
     }
   }
 

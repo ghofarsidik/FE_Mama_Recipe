@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Navbar from '../../components/base/Navbar';
 import Footer from '../../components/base/Footer';
@@ -8,82 +8,46 @@ import like from '../../assets/images/icons/like.svg';
 import unlike from '../../assets/images/icons/unlike.svg';
 import save from '../../assets/images/icons/bookmark.svg';
 import unsave from '../../assets/images/icons/unbookmark.svg';
+import { fetchRecipe, fetchLikeStatus, fetchSaveStatus, setLikeStatus, setSaveStatus, deleteLike, deleteSave } from '../../redux/slice/recipeSlice';
+import Image from 'next/image';
 
 const RecipeDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [recipe, setRecipe] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const dispatch = useDispatch();
+  const { recipe, error, isLiked, isSaved } = useSelector((state) => state.recipe);
 
   useEffect(() => {
     if (id) {
-      const getRecipe = async () => {
-        try {
-          const response = await API.get(`/recipes/${id}`);
-          console.log("recipe: ", response.data.data);
-          setRecipe(response.data.data);
-        } catch (err) {
-          setError("Error fetching recipe details.");
-        }
-      };
-
-      const getLikeStatus = async () => {
-        try {
-          const likeResponse = await API.get(`/recipes/like`);
-          const likeRecipe = likeResponse.data.data.find(recipe => recipe.recipe_id === id);
-          setIsLiked(!!likeRecipe); // Set isLiked based on the existence of likeRecipe
-        } catch (err) {
-          setError("Error fetching like status.");
-        }
-      };
-
-      const getSaveStatus = async () => {
-        try {
-          const saveResponse = await API.get(`/recipes/save`);
-          const savedRecipe = saveResponse.data.data.find(recipe => recipe.recipe_id === id);
-          setIsSaved(!!savedRecipe); 
-        } catch (err) {
-          setError("Error fetching save status.");
-        }
-      };
-
-      getRecipe();
-      getLikeStatus();
-      getSaveStatus();
+      dispatch(fetchRecipe(id));
+      dispatch(fetchLikeStatus(id));
+      dispatch(fetchSaveStatus(id));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   const handleLike = async () => {
     try {
       if (isLiked) {
-        const likeRecipesData = await API.get('/recipes/like')
-        const likeRecipe = likeRecipesData.data.data.find(recipe => recipe.recipe_id === id)
-        await API.delete(`/recipes/like/${likeRecipe.id}`);
-        setIsLiked(false); // Set to false after delete
+        await dispatch(deleteLike(id)).unwrap();
       } else {
         await API.post(`/recipes/like`, { recipe_id: id });
-        setIsLiked(true); // Set to true after post
+        dispatch(setLikeStatus(true));
       }
     } catch (err) {
-      setError("Error updating like status.");
+      dispatch(setError("Error updating like status."));
     }
   };
 
   const handleSave = async () => {
     try {
       if (isSaved) {
-        const saveRecipeData = await API.get('/recipes/save')
-        const saveRecipe = saveRecipeData.data.data.find(recipe => recipe.recipe_id === id)
-        await API.delete(`/recipes/save/${saveRecipe.id}`);
-        setIsSaved(false); // Set to false after delete
+        await dispatch(deleteSave(id)).unwrap();
       } else {
         await API.post(`/recipes/save`, { recipe_id: id });
-        setIsSaved(true); // Set to true after post
+        dispatch(setSaveStatus(true));
       }
     } catch (err) {
-      setError("Error updating save status.");
+      dispatch(setError("Error updating save status."));
     }
   };
 
@@ -99,15 +63,6 @@ const RecipeDetail = () => {
     const formattedDescription = description.replace(/\n/g, '<br />');
     return { __html: formattedDescription };
   };
-
-  const handleClick = async() => {
-    try {
-      const likeResponse = await API.post(`/recipes/save`, { id });
-      console.log("likeResponse: ", likeResponse);
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   return (
     <div className="max-w-[1440px] mx-auto bg-bg_krem font-montserrat">
@@ -131,13 +86,13 @@ const RecipeDetail = () => {
             </button>
           </div>
         </div>
-        <button onClick={handleClick}>Save</button>
         <p className='mt-5 ml-[10%]'>Bahan-Bahan</p>
         <p dangerouslySetInnerHTML={createMarkup(recipe.description)} className='ml-[10%] mt-5'></p>
       </div>
-      <Footer />
+      <Footer /> 
     </div>
   );
 };
 
 export default RecipeDetail;
+

@@ -1,98 +1,36 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/base/Navbar";
 import Image from "next/image";
 import dummyImage from "../../assets/images/images/dummyPhoto.jpg";
 import MyRecipe from "../../components/module/MyRecipe.jsx";
 import SavedRecipe from "../../components/module/SavedRecipe.jsx";
 import LikeRecipe from "../../components/module/LikeRecipe.jsx";
-import API from "../../api/api.jsx";
 import Footer from "../../components/base/Footer.jsx";
+import { getProfile, getMyRecipes, getSavedRecipes, getLikeRecipes, deleteMyRecipe, deleteSavedRecipe, deleteLikeRecipe } from "../../redux/slice/userSlice";
 
 const Index = () => {
+  const dispatch = useDispatch();
+  const { user, myRecipes, savedRecipes, likeRecipes } = useSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState("My Recipe");
-  const [recipes, setRecipes] = useState([]);
-  const [savedRecipes, setSavedRecipes] = useState([]);
-  const [likeRecipes, setLikeRecipes] = useState([]);
-  const [user, setUser] = useState([]);
 
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await API.get("/users/profile");
-        const data = response.data.data;
-        console.log("user data: ", data);
-        setUser(data);
-      } catch (error) {
-        console.error("Error getting user data: ", error);
-      }
-    };
-    getUserData();
-  }, []);
+    dispatch(getProfile());
+    dispatch(getMyRecipes());
+    dispatch(getSavedRecipes());
+    dispatch(getLikeRecipes());
+  }, [dispatch]);
 
-  useEffect(() => {
-    const getRecipesData = async () => {
-      try {
-        const response = await API.get("/recipes/self");
-        const data = response.data.data;
-        console.log("Recipe data: ", data);
-        setRecipes(data);
-      } catch (err) {
-        console.error("Failed to get recipe data: ", err);
-      }
-    };
-
-    const getSavedRecipesData = async () => {
-      try {
-        const response = await API.get("/recipes/save");
-        const data = response.data.data;
-        console.log("Saved Recipe data: ", data);
-        setSavedRecipes(data);
-      } catch (err) {
-        console.error("Failed to get saved recipe data: ", err);
-      }
-    };
-
-    const getLikeRecipesData = async () => {
-      try {
-        const response = await API.get("/recipes/like");
-        const data = response.data.data;
-        console.log("Like Recipe data: ", data);
-        setLikeRecipes(data);
-      } catch (err) {
-        console.error("Failed to get like recipe data: ", err);
-      }
-    };
-
-    getRecipesData();
-    getSavedRecipesData();
-    getLikeRecipesData();
-  }, []);
-
-  const handleDeleteMyRecipe = async (id) => {
-    try {
-      await API.delete(`/recipes/${id}`);
-      setRecipes((prevRecipes) => prevRecipes.filter(recipe => recipe.id !== id));
-    } catch (error) {
-      console.error('Failed to delete the recipe:', error);
-    }
+  const handleDeleteMyRecipe = (id) => {
+    dispatch(deleteMyRecipe(id));
   };
 
-  const handleDeleteSave = async (id) => {
-    try {
-      await API.delete(`/recipes/save/${id}`);
-      setSavedRecipes((prevSavedRecipes) => prevSavedRecipes.filter(recipe => recipe.id !== id));
-    } catch (error) {
-      console.error('Failed to delete the saved recipe:', error);
-    }
+  const handleDeleteSave = (id) => {
+    dispatch(deleteSavedRecipe(id));
   };
 
-  const handleDeleteLike = async (id) => {
-    try {
-      await API.delete(`/recipes/like/${id}`);
-      setLikeRecipes((prevLikeRecipes) => prevLikeRecipes.filter(recipe => recipe.id !== id));
-    } catch (error) {
-      console.error('Failed to delete the liked recipe:', error);
-    }
+  const handleDeleteLike = (id) => {
+    dispatch(deleteLikeRecipe(id));
   };
 
   return (
@@ -107,7 +45,7 @@ const Index = () => {
       />     
 
       <div className="mt-5 w-full">
-        <p className="text-center font-semibold text-[26px]">{user.name}</p>
+        <p className="text-center font-semibold text-[26px]">{user?.name}</p>
       </div>
       <div className="flex w-full border-b-2 pb-7 mt-16">
         <div
@@ -136,7 +74,7 @@ const Index = () => {
         </div>
       </div>
       <div className="mt-5 w-full text-center">
-        {activeTab === "My Recipe" && <MyRecipe recipes={recipes} handleDelete={handleDeleteMyRecipe} />}
+        {activeTab === "My Recipe" && <MyRecipe recipes={myRecipes} handleDelete={handleDeleteMyRecipe} />}
         {activeTab === "Saved Recipe" && <SavedRecipe savedRecipes={savedRecipes} handleDelete={handleDeleteSave} />}
         {activeTab === "Like Recipe" && <LikeRecipe likeRecipes={likeRecipes} handleDelete={handleDeleteLike} />}
       </div>

@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router' // Import useRouter from Next.js
+import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
 import Navbar from '../../../components/base/Navbar'
 import Footer from '../../../components/base/Footer'
 import Image from 'next/image'
-import API from '../../../api/api'
+import { addRecipe } from '../../../redux/slice/recipeSlice'
 
 const Index = () => {
   const [showImage, setShowImage] = useState(null)
   const [image, setImage] = useState(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const router = useRouter() 
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { addRecipeStatus, error } = useSelector((state) => state.recipe)
 
   const handleImageReader = (event) => {
     const file = event.target.files[0]
@@ -35,23 +38,9 @@ const Index = () => {
     }
 
     try {
-      // Phase 1: Upload image
-      const formData = new FormData()
-      formData.append('file', image)
-      const uploadResponse = await API.post('/upload', formData)
-      const imageUrl = uploadResponse.data.data.file_url
-
-      // Phase 2: Upload data
-      const data = {
-        title,
-        description,
-        image: imageUrl
-      }
-      const recipeResponse = await API.post('/recipes', data)
-      const recipeId = recipeResponse.data.data.id // Get the recipe ID
-
+      const resultAction = await dispatch(addRecipe({ image, title, description })).unwrap()
       alert('Recipe uploaded successfully!')
-      router.push(`/recipes/${recipeId}`) // Redirect to the new recipe page
+      router.push(`/recipes/${resultAction.id}`)
     } catch (error) {
       console.error('Error uploading recipe:', error)
       alert('Failed to upload recipe.')
