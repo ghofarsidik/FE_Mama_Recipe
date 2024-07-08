@@ -10,7 +10,7 @@
     <br />
    <a href="mama-recipe-ghaffar.vercel.app" target="_blank">View Demo</a>
     ·
-    <a href="https://github.com/ghofarsidik/Be_Peworld.git" target="_blank">View Back-End Repo</a>
+    <a href="https://github.com/ghofarsidik/BE_mama_recipe.git" target="_blank">View Back-End Repo</a>
   </p>
   </div>
 
@@ -100,51 +100,51 @@ Here is the screen display of the Peworld:
 
 <table style="width: 100%;">
   <tr>
-    <td style="width: 50%; text-align: center;"><strong>Landing Page Before Login</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Landing Page After Login</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Home Before Login</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Home After Login</strong></td>
   </tr>
   <tr>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/Landing%20Page%20before%20Login.png" alt="Landing Page Before Login">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/5804f2a046c086477315c4a0091ad3f4c32be730/assets/images/screenshot/home%20before%20login.png" alt="Home Before Login">
     </td>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/landing%20Page%20After%20login.png" alt="Landing Page After Login">
-    </td>
-  </tr>
-  <tr>
-    <td style="width: 50%; text-align: center;"><strong>Login</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Register Worker</strong></td>
-  </tr>
-  <tr>
-    <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/Login.png" alt="Login">
-    </td>
-    <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/Register%20Worker.png" alt="Register Worker">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/home%20after%20login.png" alt="Home After Login">
     </td>
   </tr>
   <tr>
-    <td style="width: 50%; text-align: center;"><strong>Register Recruiter</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Profile Worker + Portfolio</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Search</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>All Recipe</strong></td>
   </tr>
   <tr>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/Register%20Recruiter.png" alt="Register Recruiter">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/search.png" alt="Search">
     </td>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/profile%20worker%20%2B%20portofolio.png" alt="Profile Worker + Portfolio">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/all%20recipe.png" alt="All Recipe">
     </td>
   </tr>
   <tr>
-    <td style="width: 50%; text-align: center;"><strong>Profile Worker + Experience</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Edit Profile Worker</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Add Recipe</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Profile + My Recipe</strong></td>
   </tr>
   <tr>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/profile%20worker%20%2B%20experience.png" alt="Profile Worker + Experience">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/add%20recipe.png" alt="Add Recipe">
     </td>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/Peworld/blob/0c0ccdfe1eef842c81062ed8a3a3c531ce88a84f/src/components/images/screenshot/edit%20profile%20worker.png" alt="Edit Profile Worker">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20my%20recipe.png" alt="Profile + My Recipe">
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%; text-align: center;"><strong>Profile + Saved Recipe</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Profile + Like Recipe</strong></td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20saved%20recipe.png" alt="Profile + Saved Recipe">
+    </td>
+    <td style="width: 50%;">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20like%20recipe.png" alt="Profile + Like Recipe">
     </td>
   </tr>
 </table>
