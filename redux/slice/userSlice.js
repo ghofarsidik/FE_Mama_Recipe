@@ -3,9 +3,16 @@ import API from '../../api/api';
 
 export const getProfile = createAsyncThunk('user/getProfile', async (_, thunkAPI) => {
   try {
-    const response = await API.get('/users/profile');
+    const token = localStorage.getItem('token'); 
+    const response = await API.get('/users/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    console.log('Profile response:', response.data); 
     return response.data.data;
   } catch (error) {
+    console.error('Profile fetch error:', error.response?.data?.message || 'Failed to fetch profile'); // Debug log
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch profile');
   }
 });
@@ -100,6 +107,7 @@ const userSlice = createSlice({
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        console.log('Profile state updated:', state.user); // Debug log
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;

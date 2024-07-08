@@ -8,6 +8,7 @@ import background from "../../assets/images/backgroundImage/bgautentification.pn
 import Input from "../../components/base/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/slice/authSlice";
+import PublicRoute from "../../components/module/route/PublicRoute";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -115,4 +116,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default PublicRoute(Register, true);

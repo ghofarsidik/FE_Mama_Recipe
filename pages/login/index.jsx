@@ -8,23 +8,29 @@ import MamaIcon from "../../assets/images/logos/mama recipe.png";
 import background from "../../assets/images/backgroundImage/bgautentification.png";
 import Input from "../../components/base/Input";
 import { login } from "../../redux/slice/authSlice"; 
+import PublicRoute from "../../components/module/route/PublicRoute";
 
 const Login = () => {
-  const [data, setData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
   const { loading, error, token } = useSelector((state) => state.auth);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    console.log("Updated email:", e.target.value); // Tambahkan log ini
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    console.log("Updated password:", e.target.value); // Tambahkan log ini
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const data = { email, password };
+    console.log("Data to be submitted:", data); // Tambahkan log ini
     const result = await dispatch(login(data));
     if (login.fulfilled.match(result)) {
       router.push("/");
@@ -59,13 +65,13 @@ const Login = () => {
             name="email"
             type="email"
             placeholder="masukkan email anda"
-            onChange={handleChange}
+            onChange={handleEmailChange}
           />
           <Input
             name="password"
             type="password"
             placeholder="masukkan password anda"
-            onChange={handleChange}
+            onChange={handlePasswordChange}
           />
           <div className="flex items-center space-x-2">
             <input type="checkbox" id="terms" />
@@ -89,4 +95,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default PublicRoute(Login, true);

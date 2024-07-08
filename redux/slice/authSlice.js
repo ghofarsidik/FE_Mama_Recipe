@@ -4,9 +4,10 @@ import api from '../../api/api';
 export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
   try {
     const response = await api.post('/auth/login', data);
-    const { token } = response.data.data;
-    localStorage.setItem('token', token);
-    return token;
+    const form = response.data.data;
+    console.log("data: ", form);
+    localStorage.setItem('token', form.token);
+    return form.token;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Login failed');
   }
@@ -15,9 +16,7 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
 export const register = createAsyncThunk('auth/register', async (data, thunkAPI) => {
   try {
     const response = await api.post('/auth/register', data);
-    const { token } = response.data.data;
-    localStorage.setItem('token', token);
-    return token;
+    return response.data.message; 
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data?.message || 'Registration failed');
   }
@@ -54,9 +53,9 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state) => {
         state.loading = false;
-        state.token = action.payload;
+
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;

@@ -10,16 +10,34 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from 'react-responsive';
 
+const getHalfViewportWidth = () => {
+  return window.innerWidth * 0.5;
+};
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef(null);
   const dispatch = useDispatch();
   const { recipes, searchResults, searchMessage, currentPage, totalPages } = useSelector((state) => state.home);
-
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const isMobile = useMediaQuery({ query: '(max-width: 640px)' });
 
   useEffect(() => {
-    dispatch(fetchRecipes());
+    setViewportWidth(getHalfViewportWidth());
+
+    const handleResize = () => {
+      setViewportWidth(getHalfViewportWidth());
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchRecipes({ page: 1 }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -119,15 +137,15 @@ export default function Home() {
           <div className="border-l-8 border-yellow-400 text-[24px] md:text-[48px] ml-[5%] mt-16">
             New Recipe
           </div>
-          <div className="flex flex-col mr-[7%] md:flex-row items-center mt-[15px] ml-[7%] h-auto md:h-[600px]">
+          <div className="flex flex-col mr-[7%] lg:flex-row items-center mt-[15px] ml-[7%] h-auto md:h-[600px]">
             <Image
               src={recipes[0]?.image}
               alt={recipes[0]?.name}
-              width={400}
-              height={300}
+              width={viewportWidth}
+              height={viewportWidth}
               className="h-auto w-full md:h-[600px] md:w-[600px] rounded-3xl border border-black object-cover"
             />
-            <div className="text-left mt-4 md:mt-0 md:mr-[5%] md:pl-[15%]">
+            <div className="text-left mt-4 md:mt-0 md:mr-[5%] md:pl-[5%] ">
               <p className="text-[24px] md:text-[48px] font-bold border-b-2 border-black">
                 {recipes[0]?.title || "No Recipe Title"}
               </p>
@@ -147,12 +165,12 @@ export default function Home() {
           <div className="border-l-8 border-yellow-400 text-[24px] md:text-[48px] ml-[5%] mt-16">
             Popular Recipe
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-y-[25px] mt-[25px] mx-[5%]">
+          <div className="grid grid-cols-2 xl:grid-cols-3 place-items-center gap-y-[25px] mt-[25px] mx-[5%]">
             {recipes.slice(0,6).map((recipe, index) => (
               <Link href={`/recipes/${recipe.id}`} key={index}>
                 <Card
-                  width={isMobile ? 150 : 400}
-                  height={isMobile ? 150 : 400}
+                  width={isMobile ? 150 : 360}
+                  height={isMobile ? 150 : 360}
                   image={recipe?.image}
                   recipe_name={recipe.title}
                 />
@@ -172,3 +190,4 @@ export default function Home() {
     </div>
   );
 }
+

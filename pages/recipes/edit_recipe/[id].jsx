@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRecipe, editRecipe } from '../../../redux/slice/recipeSlice'
 import API from '../../../api/api'
+import PrivateRoute from '../../../components/module/route/PrivateRoute'
 
 const Index = () => {
   const [showImage, setShowImage] = useState(null)
@@ -117,4 +118,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default PrivateRoute(Index, true)

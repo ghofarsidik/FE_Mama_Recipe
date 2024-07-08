@@ -10,6 +10,7 @@ import save from '../../assets/images/icons/bookmark.svg';
 import unsave from '../../assets/images/icons/unbookmark.svg';
 import { fetchRecipe, fetchLikeStatus, fetchSaveStatus, setLikeStatus, setSaveStatus, deleteLike, deleteSave } from '../../redux/slice/recipeSlice';
 import Image from 'next/image';
+import PrivateRoute from '../../components/module/route/PrivateRoute';
 
 const RecipeDetail = () => {
   const router = useRouter();
@@ -60,8 +61,11 @@ const RecipeDetail = () => {
   }
 
   const createMarkup = (description) => {
-    const formattedDescription = description.replace(/\n/g, '<br />');
-    return { __html: formattedDescription };
+    const formattedDescription = description
+      .split('\n')
+      .map(line => `<li>- ${line}</li>`)
+      .join('');
+    return { __html: `<ul>${formattedDescription}</ul>` };
   };
 
   return (
@@ -86,13 +90,13 @@ const RecipeDetail = () => {
             </button>
           </div>
         </div>
-        <p className='mt-5 ml-[10%]'>Bahan-Bahan</p>
-        <p dangerouslySetInnerHTML={createMarkup(recipe.description)} className='ml-[10%] mt-5'></p>
+        <p className='text-xl mt-10 ml-[10%]'>Bahan-Bahan</p>
+        <p dangerouslySetInnerHTML={createMarkup(recipe.description)} className='ml-[10%] mt-5 text-lg list-disc list-inside'></p>
       </div>
       <Footer /> 
     </div>
   );
 };
 
-export default RecipeDetail;
-
+export default PrivateRoute(RecipeDetail);
+// export default RecipeDetail;

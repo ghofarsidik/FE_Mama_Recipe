@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import User from "../../assets/images/icons/User.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { logout } from '../../redux/slice/authSlice'; // atau dari slice jika menggunakan Redux Toolkit
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Cek token atau status login di sini
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
@@ -16,7 +20,9 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    dispatch(logout()); // Memanggil aksi logout untuk menghapus token dari Redux
     setIsLoggedIn(false);
+    router.push('/'); // Mengarahkan pengguna ke halaman utama
   };
 
   return (

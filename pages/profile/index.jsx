@@ -8,6 +8,7 @@ import SavedRecipe from "../../components/module/SavedRecipe.jsx";
 import LikeRecipe from "../../components/module/LikeRecipe.jsx";
 import Footer from "../../components/base/Footer.jsx";
 import { getProfile, getMyRecipes, getSavedRecipes, getLikeRecipes, deleteMyRecipe, deleteSavedRecipe, deleteLikeRecipe } from "../../redux/slice/userSlice";
+import PrivateRoute from "../../components/module/route/PrivateRoute.jsx";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -84,4 +85,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default PrivateRoute(Index, true);

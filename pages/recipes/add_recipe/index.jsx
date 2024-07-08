@@ -5,6 +5,7 @@ import Navbar from '../../../components/base/Navbar'
 import Footer from '../../../components/base/Footer'
 import Image from 'next/image'
 import { addRecipe } from '../../../redux/slice/recipeSlice'
+import PrivateRoute from '../../../components/module/route/PrivateRoute'
 
 const Index = () => {
   const [showImage, setShowImage] = useState(null)
@@ -100,4 +101,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default PrivateRoute(Index, true)
