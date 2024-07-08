@@ -62,7 +62,7 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex items-center">
           {isLoggedIn ? (
-            <button onClick={handleLogout}>Logout</button>
+            <button className="bg-yellow-400 py-2 px-4 rounded-lg mx-2" onClick={handleLogout}>Logout</button>
           ) : (
             <>
               <Link href="/login">
@@ -86,7 +86,7 @@ const Navbar = () => {
           <Link href="/recipes/add_recipe"><p className="py-2" onClick={toggleMenu}>Add Recipe</p></Link>
           <Link href="/profile"><p className="py-2" onClick={toggleMenu}>Profile</p></Link>
           {isLoggedIn ? (
-            <button onClick={() => { handleLogout(); toggleMenu(); }} className="py-2">Logout</button>
+            <button onClick={() => { handleLogout(); toggleMenu(); }} className="bg-yellow-400 py-2 px-4 rounded-lg mx-2 mt-1">Logout</button>
           ) : (
             <>
               <Link href="/login">
