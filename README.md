@@ -29,11 +29,11 @@
 
 ### About The Project
 
-Blanja is a web application designed to help you find various kinds of items you want, or help you sell your items. On Blanja, we will recommend the best products for you. For those unsure where to sell their items, Blanja also provides a solution for online selling. Start your store now and sell your items easily and quickly on Blanja.
+Mama Recipe is a web application created to assist everyone in cooking and sharing their favorite recipes. With Mama Recipe, you will receive recommendations for food recipes complete with easy-to-follow instructions. Additionally, you can share your best recipes, allowing everyone to taste the deliciousness of your cooking.
 
 ### Built With
 
-This Peworld project was created using the following technologies:
+This Mama Recipe project was created using the following technologies:
 
 - HTML
 - Tailwind CSS
@@ -96,7 +96,7 @@ Make sure you have the following installed on your local machine:
 
 ### Screenshots
 
-Here is the screen display of the Peworld:
+Here is the screen display of the Mama Recipe:
 
 <table style="width: 100%;">
   <tr>
@@ -207,7 +207,7 @@ For any inquiries or questions, you can reach me at:
 
 ### Documentation
 
-The backend project was created by [Muhammad Risano](https://github.com/muhammadrisano) using Express.js. For the backend link, you can visit [Backend Peworld](https://github.com/ghofarsidik/BE_mama_recipe).
+The backend project was created by [Muhammad Risano](https://github.com/muhammadrisano) using Express.js. For the backend link, you can visit [Backend Mama reciipe](https://github.com/ghofarsidik/BE_mama_recipe).
 
 
 ### Related Project
