@@ -117,10 +117,10 @@ Here is the screen display of the Mama Recipe:
   </tr>
   <tr>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/search.png" alt="Search">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/search%20(2).png" alt="Search">
     </td>
     <td style="width: 50%;">
-      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/all%20recipe.png" alt="All Recipe">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/all%20recipe%20(2).png" alt="All Recipe">
     </td>
   </tr>
   <tr>
