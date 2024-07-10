@@ -8,7 +8,7 @@
     Mama recipe Implementation
     <br />
     <br />
-   <a href="mama-recipe-ghaffar.vercel.app" target="_blank">View Demo</a>
+   <a href="https://mama-recipe-ghaffar.vercel.app" target="_blank">View Demo</a>
     ·
     <a href="https://github.com/ghofarsidik/BE_mama_recipe.git" target="_blank">View Back-End Repo</a>
   </p>
