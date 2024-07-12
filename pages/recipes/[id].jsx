@@ -69,7 +69,7 @@ const RecipeDetail = () => {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto bg-bg_krem font-montserrat">
+    <div className="w-full mx-auto bg-bg_krem font-montserrat">
       <Navbar />
       <div className="flex flex-col px-[5%]">
         <h1 className="font-semibold text-[50px] text-mr_color mx-auto">{recipe.title}</h1>

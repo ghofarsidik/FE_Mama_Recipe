@@ -112,6 +112,18 @@ Here is the screen display of the Mama Recipe:
     </td>
   </tr>
   <tr>
+    <td style="width: 50%; text-align: center;"><strong>Login</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Register</strong></td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/login.png" alt="Login">
+    </td>
+    <td style="width: 50%;">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/register.png" alt="Register">
+    </td>
+  </tr>
+  <tr>
     <td style="width: 50%; text-align: center;"><strong>Search</strong></td>
     <td style="width: 50%; text-align: center;"><strong>All Recipe</strong></td>
   </tr>
