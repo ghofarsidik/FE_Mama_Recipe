@@ -136,28 +136,38 @@ Here is the screen display of the Mama Recipe:
     </td>
   </tr>
   <tr>
+    <td style="width: 50%; text-align: center;"><strong>Detail Recipe</strong></td>
     <td style="width: 50%; text-align: center;"><strong>Add Recipe</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Profile + My Recipe</strong></td>
   </tr>
   <tr>
+    <td style="width: 50%;">
+      <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/detail%20recipe.png" alt="Detail Recipe">
+    </td>
     <td style="width: 50%;">
       <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/add%20recipe.png" alt="Add Recipe">
     </td>
+  </tr>
+  <tr>
+    <td style="width: 50%; text-align: center;"><strong>Profile + My Recipe</strong></td>
+    <td style="width: 50%; text-align: center;"><strong>Profile + Saved Recipe</strong></td>
+  </tr>
+  <tr>
     <td style="width: 50%;">
       <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20my%20recipe.png" alt="Profile + My Recipe">
     </td>
-  </tr>
-  <tr>
-    <td style="width: 50%; text-align: center;"><strong>Profile + Saved Recipe</strong></td>
-    <td style="width: 50%; text-align: center;"><strong>Profile + Like Recipe</strong></td>
-  </tr>
-  <tr>
     <td style="width: 50%;">
       <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20saved%20recipe.png" alt="Profile + Saved Recipe">
     </td>
+  </tr>
+  <tr>
+    <td style="width: 50%; text-align: center;"><strong>Profile + Like Recipe</strong></td>
+    <td style="width: 50%; text-align: center;"></td>
+  </tr>
+  <tr>
     <td style="width: 50%;">
       <img src="https://github.com/ghofarsidik/FE_Mama_Recipe/blob/master/assets/images/screenshot/profile%20%2B%20like%20recipe.png" alt="Profile + Like Recipe">
     </td>
+    <td style="width: 50%;"></td>
   </tr>
 </table>
 
